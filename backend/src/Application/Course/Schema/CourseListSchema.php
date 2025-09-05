@@ -26,7 +26,11 @@ class CourseListSchema
             filters: [
                 ['name' => 'code', 'type' => 'string'],
                 ['name' => 'active', 'type' => 'boolean'],
-                ['name' => 'isconfirmed', 'type' => 'boolean']
+                ['name' => 'isconfirmed', 'type' => 'boolean'],
+                ['name' => 'persmax', 'label' => 'Max Persons', 'type' => 'number'],
+                ['name' => 'persmin', 'label' => 'Min Persons', 'type' => 'number'],
+                ['name' => 'start', 'label' => 'Start Date', 'type' => 'datetime'],
+                ['name' => 'end', 'label' => 'End Date', 'type' => 'datetime'],
             ],
             defaultSort: ['field' => 'id', 'order' => 'DESC']
         );

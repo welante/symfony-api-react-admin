@@ -17,10 +17,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class CourseController extends AbstractController
 {
     #[Route('/api/courses', name: 'api_courses_list', methods: ['GET'])]
-    public function list(GetCourseListHandler $handler): JsonResponse
+    public function list(Request $request, GetCourseListHandler $handler): JsonResponse
     {
-        $data = $handler->handle();
-        return $this->json($data);
+        $page     = max(1, (int) $request->query->get('page', 1));
+        $perPage  = (int) $request->query->get('perPage', 10);
+        $sort     = $request->query->get('sort', 'id');
+        $order    = $request->query->get('order', 'ASC');
+        // TODO Improve filters handle
+        $filters = $request->query->all();
+        unset($filters['page'], $filters['perPage'], $filters['sort'], $filters['order']);
+
+        $result = $handler->handle($filters, $sort, $order, $page, $perPage);
+        return $this->json($result);
     }
 
     #[Route('/api/metadata/courses/list', name: 'api_courses_list_schema', methods: ['GET'])]

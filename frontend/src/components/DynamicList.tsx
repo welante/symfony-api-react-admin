@@ -5,6 +5,11 @@ import {
     TextField,
     NumberField,
     BooleanField,
+    DateField,
+    TextInput,
+    BooleanInput,
+    DateInput,
+    NumberInput,
 } from 'react-admin';
 
 type Column = {
@@ -13,8 +18,15 @@ type Column = {
     type: string;
 };
 
+type Filter = {
+    name: string;
+    label: string;
+    type: string;
+};
+
 type Schema = {
     columns: Column[];
+    filters: Filter[];
 };
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -34,6 +46,21 @@ function renderColumn(column: Column) {
     }
 }
 
+function renderFilter(filter: Column) {
+    switch (filter.type) {
+        case 'string':
+            return <TextInput key={filter.name} label={filter.label || filter.name} source={filter.name} alwaysOn />;
+        case 'boolean':
+            return <BooleanInput key={filter.name} label={filter.label || filter.name} source={filter.name} />;
+        case 'datetime':
+            return <DateInput key={filter.name} label={filter.label || filter.name} source={filter.name} />;
+        case 'number':
+            return <NumberInput key={filter.name} label={filter.label || filter.name} source={filter.name} />;
+        default:
+            return <TextInput key={filter.name} label={filter.label || filter.name} source={filter.name} />;
+    }
+}
+
 const DynamicList = () => {
     const [schema, setSchema] = useState<Schema | null>(null);
 
@@ -47,7 +74,7 @@ const DynamicList = () => {
     if (!schema) return null;
 
     return (
-        <List>
+        <List filters={schema.filters.map((f) => renderFilter(f))}>
             <Datagrid rowClick="edit">
                 {schema.columns.map((col) => renderColumn(col))}
             </Datagrid>

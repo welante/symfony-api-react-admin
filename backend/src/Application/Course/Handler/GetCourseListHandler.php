@@ -10,24 +10,33 @@ class GetCourseListHandler
     public function __construct(private CourseRepositoryInterface $repository) {}
 
     /**
-     * @return CourseListItemDTO[]
+     * @return array{data: CourseListItemDTO[], total: int}
      */
-    public function handle(): array
+    public function handle(
+        array  $filters = [],
+        string $sort = 'id',
+        string $order = 'ASC',
+        int    $page = 1,
+        int    $perPage = 10
+    ): array
     {
-        $courses = $this->repository->findAll();
+        $total = $this->repository->countByFilters($filters);
+        $courses = $this->repository->findByFilters($filters, $sort, $order, $page, $perPage);
 
-        return array_map(fn($course) =>
-        new CourseListItemDTO(
-            id: $course->getId(),
-            code: $course->getCode(),
-            active: $course->isActive(),
-            persmax: $course->getPersmax(),
-            persmin: $course->getPersmin(),
-            isconfirmed: $course->isConfirmed(),
-            start: $course->getStart(),
-            end: $course->getEnd()
-        ),
-            $courses
-        );
+        return [
+            'data' => array_map(fn($course) => new CourseListItemDTO(
+                id: $course->getId(),
+                code: $course->getCode(),
+                active: $course->isActive(),
+                persmax: $course->getPersmax(),
+                persmin: $course->getPersmin(),
+                isconfirmed: $course->isConfirmed(),
+                start: $course->getStart(),
+                end: $course->getEnd()
+            ),
+                $courses
+            ),
+            'total' => $total,
+        ];
     }
 }

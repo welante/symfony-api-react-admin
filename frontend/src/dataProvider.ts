@@ -1,16 +1,29 @@
 import { DataProvider } from 'react-admin';
+import { GetListParams } from 'ra-core';
 
 const apiUrl = process.env.REACT_APP_API_URL || 'http://welante-admin-back/api';
 
 const dataProvider: DataProvider = {
-    getList: async (resource, params) => {
+    getList: async (resource, params: GetListParams) => {
         if (resource === 'courses') {
-            const response = await fetch(`${apiUrl}/courses`);
-            const data = await response.json();
+            const { page, perPage } = params.pagination ?? { page: 1, perPage: 10 };
+            const { field, order } = params.sort ?? { field: 'id', order: 'ASC' };
+            const filters = params.filter ?? {};
+
+            const query = new URLSearchParams({
+                page: String(page),
+                perPage: String(perPage),
+                sort: field,
+                order,
+                ...Object.fromEntries(Object.entries(filters).map(([k, v]) => [k, String(v)]))
+            });
+
+            const response = await fetch(`${apiUrl}/courses?${query}`);
+            const result = await response.json();
 
             return {
-                data,
-                total: data.length,
+                data: result.data,
+                total: result.total,
             };
         }
         throw new Error(`getList not implemented for ${resource}`);
