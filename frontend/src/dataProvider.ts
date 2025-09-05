@@ -21,7 +21,7 @@ const dataProvider: DataProvider = {
             const response = await fetch(`${apiUrl}/courses/${params.id}`);
             const data = await response.json();
 
-            return { data };
+            return { data: { id: params.id, ...data } };
         }
         throw new Error(`getOne not implemented for ${resource}`);
     },
