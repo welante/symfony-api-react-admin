@@ -4,6 +4,7 @@ import {
     TextInput,
     NumberInput,
     BooleanInput,
+    DateTimeInput,
     Create,
     Edit,
 } from 'react-admin';
@@ -13,6 +14,7 @@ type Field = {
     label: string;
     type: string;
     required?: boolean;
+    readonly?: boolean;
 };
 
 type Schema = {
@@ -24,15 +26,17 @@ const apiUrl = process.env.REACT_APP_API_URL;
 function renderField(field: Field) {
     switch (field.type) {
         case 'string':
-            return <TextInput key={field.name} source={field.name} label={field.label} required={field.required} />;
+            return <TextInput key={field.name} source={field.name} label={field.label} required={field.required} disabled={field.readonly} />;
         case 'text':
-            return <TextInput key={field.name} source={field.name} label={field.label} multiline />;
+            return <TextInput key={field.name} source={field.name} label={field.label} multiline disabled={field.readonly} />;
         case 'number':
-            return <NumberInput key={field.name} source={field.name} label={field.label} />;
+            return <NumberInput key={field.name} source={field.name} label={field.label} disabled={field.readonly} />;
         case 'boolean':
-            return <BooleanInput key={field.name} source={field.name} label={field.label} />;
+            return <BooleanInput key={field.name} source={field.name} label={field.label} disabled={field.readonly} />;
+        case 'datetime':
+            return <DateTimeInput key={field.name} source={field.name} label={field.label} disabled={field.readonly} />;
         default:
-            return <TextInput key={field.name} source={field.name} label={field.label} />;
+            return <TextInput key={field.name} source={field.name} label={field.label} disabled={field.readonly} />;
     }
 }
 
