@@ -27,6 +27,8 @@ function renderColumn(column: Column) {
             return <NumberField key={column.name} source={column.name} label={column.label} />;
         case 'boolean':
             return <BooleanField key={column.name} source={column.name} label={column.label} />;
+        case 'datetime':
+            return <DateField key={column.name} source={column.name} label={column.label} />;
         default:
             return <TextField key={column.name} source={column.name} label={column.label} />;
     }
