@@ -73,7 +73,7 @@ export const DynamicEdit = () => {
     if (!schema) return null;
 
     return (
-        <Edit>
+        <Edit mutationMode="pessimistic">
             <SimpleForm>
                 {schema.fields.map((field) => renderField(field))}
             </SimpleForm>

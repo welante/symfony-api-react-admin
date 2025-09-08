@@ -1,4 +1,4 @@
-import { DataProvider } from 'react-admin';
+import { DataProvider, HttpError } from 'react-admin';
 import { GetListParams } from 'ra-core';
 
 const apiUrl = process.env.REACT_APP_API_URL || 'http://welante-admin-back/api';
@@ -48,6 +48,13 @@ const dataProvider: DataProvider = {
             });
             const data = await response.json();
 
+            if (!response.ok) {
+                if (response.status === 400 && data.errors) {
+                    throw new HttpError('Validation error', 400, { errors: data.errors });
+                }
+                throw new HttpError(data.message || 'Error creating resource', response.status, data);
+            }
+
             return { data: { id: data.id, ...data } };
         }
         throw new Error(`create not implemented for ${resource}`);
@@ -61,6 +68,13 @@ const dataProvider: DataProvider = {
                 body: JSON.stringify(params.data),
             });
             const data = await response.json();
+
+            if (!response.ok) {
+                if (response.status === 400 && data.errors) {
+                    throw new HttpError('Validation error', 400, { errors: data.errors });
+                }
+                throw new HttpError(data.message || 'Error updating resource', response.status, data);
+            }
 
             return { data: { id: params.id, ...data } };
         }
