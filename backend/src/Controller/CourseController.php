@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 class CourseController extends AbstractController
 {
@@ -56,18 +57,32 @@ class CourseController extends AbstractController
     public function create(Request $request, CreateCourseHandler $handler): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        $course = $handler->handle($data);
-
-        return $this->json($course);
+        try {
+            $course = $handler->handle($data);
+            return $this->json($course, 201);
+        } catch (ValidationFailedException $e) {
+            $errors = [];
+            foreach ($e->getViolations() as $violation) {
+                $errors[$violation->getPropertyPath()] = $violation->getMessage();
+            }
+            return $this->json(['errors' => $errors], 400);
+        }
     }
 
     #[Route('/api/courses/{id}', name: 'api_course_update', methods: ['PUT'])]
     public function update(int $id, Request $request, UpdateCourseHandler $handler): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        $course = $handler->handle($id, $data);
-
-        return $this->json($course);
+        try {
+            $course = $handler->handle($id, $data);
+            return $this->json($course);
+        } catch (ValidationFailedException $e) {
+            $errors = [];
+            foreach ($e->getViolations() as $violation) {
+                $errors[$violation->getPropertyPath()] = $violation->getMessage();
+            }
+            return $this->json(['errors' => $errors], 400);
+        }
     }
 
     #[Route('/api/courses/{id}', name: 'api_course_delete', methods: ['DELETE'])]
