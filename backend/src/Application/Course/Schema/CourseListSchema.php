@@ -22,10 +22,10 @@ class CourseListSchema
                 ['name' => 'isconfirmed', 'label' => 'Confirmed', 'type' => 'boolean'],
                 ['name' => 'start', 'label' => 'Start Date', 'type' => 'datetime'],
                 ['name' => 'end', 'label' => 'End Date', 'type' => 'datetime'],
+                ['name' => 'cancelled', 'label' => 'Cancelled Date', 'type' => 'datetime'],
             ],
             filters: [
                 ['name' => 'code', 'type' => 'string'],
-                ['name' => 'active', 'type' => 'boolean'],
                 ['name' => 'isconfirmed', 'type' => 'boolean'],
                 ['name' => 'persmax', 'label' => 'Max Persons', 'type' => 'number'],
                 ['name' => 'persmin', 'label' => 'Min Persons', 'type' => 'number'],

@@ -83,6 +83,16 @@ class DoctrineCourseRepository extends ServiceEntityRepository implements Course
             $param = ':' . $field;
             $type  = $metadata->getTypeOfField($field);
 
+            // Special case: cancelled is datetime but we want boolean semantics
+            if ($field === 'cancelled' && $type === 'datetime') {
+                if ($value === true || $value === 'true' || $value === 1 || $value === '1') {
+                    $qb->andWhere("c.$field IS NOT NULL");
+                } else {
+                    $qb->andWhere("c.$field IS NULL");
+                }
+                continue;
+            }
+
             switch ($type) {
                 case 'string':
                     $qb->andWhere("c.$field LIKE $param")

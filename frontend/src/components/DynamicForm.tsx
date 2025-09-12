@@ -7,6 +7,7 @@ import {
     DateTimeInput,
     Create,
     Edit,
+    useResourceContext,
 } from 'react-admin';
 
 type Field = {
@@ -41,14 +42,15 @@ function renderField(field: Field) {
 }
 
 export const DynamicCreate = () => {
+    const resource = useResourceContext();
     const [schema, setSchema] = useState<Schema | null>(null);
 
     useEffect(() => {
-        fetch(`${apiUrl}/metadata/courses/form`)
+        if (!resource) return;
+        fetch(`${apiUrl}/metadata/${resource}/form`)
             .then((res) => res.json())
             .then((data) => setSchema(data as Schema));
-    }, []);
-
+    }, [resource]);
 
     if (!schema) return null;
 
@@ -62,13 +64,15 @@ export const DynamicCreate = () => {
 };
 
 export const DynamicEdit = () => {
+    const resource = useResourceContext();
     const [schema, setSchema] = useState<Schema | null>(null);
 
     useEffect(() => {
-        fetch(`${apiUrl}/metadata/courses/form`)
+        if (!resource) return;
+        fetch(`${apiUrl}/metadata/${resource}/form`)
             .then((res) => res.json())
             .then((data) => setSchema(data as Schema));
-    }, []);
+    }, [resource]);
 
     if (!schema) return null;
 

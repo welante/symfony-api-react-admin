@@ -12,6 +12,7 @@ class CourseListItemDTO
         public ?int $persmin,
         public ?bool $isconfirmed,
         public ?\DateTimeInterface $start,
-        public ?\DateTimeInterface $end
+        public ?\DateTimeInterface $end,
+        public ?\DateTimeInterface $cancelled
     ) {}
 }
