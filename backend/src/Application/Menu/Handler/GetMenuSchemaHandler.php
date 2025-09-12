@@ -26,6 +26,11 @@ class GetMenuSchemaHandler
                         'icon' => 'CalendarToday',
                         'type' => 'resource',
                         'resource' => 'courses',
+                        'tabs' => [
+                            ['name' => 'all', 'label' => 'All', 'filters' => []],
+                            ['name' => 'active', 'label' => 'Active', 'filters' => ['active' => true]],
+                            ['name' => 'cancelled', 'label' => 'Cancelled', 'filters' => ['cancelled' => true]],
+                        ],
                     ],
                     [
                         'name' => 'speakers',

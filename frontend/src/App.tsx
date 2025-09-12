@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react';
 import { Admin, Resource } from 'react-admin';
 import dataProvider from './dataProvider';
-import DynamicList from './components/DynamicList';
 import { DynamicCreate, DynamicEdit } from './components/DynamicForm';
 import CustomLayout from './components/CustomLayout';
 import icons from './icons';
+import TabbedList from './components/TabbedList';
+import DynamicList from './components/DynamicList';
 
 type MenuItem = {
     name: string;
     label: string;
     icon?: string;
-    type: 'resource' | 'parent' ;
+    type: 'resource' | 'parent';
     resource?: string;
-    path?: string;
     children?: MenuItem[];
+    tabs?: { name: string; label: string; filters: Record<string, any> }[];
 };
 
 const App = () => {
@@ -30,11 +31,17 @@ const App = () => {
         .filter((item) => item.type === 'resource' && item.resource)
         .map((item) => {
             const IconComponent = item.icon ? icons[item.icon] : undefined;
+            const ListComponent = item.tabs ? (
+                <TabbedList resource={item.resource!} tabs={item.tabs} />
+            ) : (
+                <DynamicList />
+            );
+
             return (
                 <Resource
                     key={item.resource}
                     name={item.resource!}
-                    list={DynamicList}
+                    list={ListComponent}
                     create={DynamicCreate}
                     edit={DynamicEdit}
                     options={{ label: item.label }}
