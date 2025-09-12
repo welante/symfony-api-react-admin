@@ -32,7 +32,8 @@ class GetCourseListHandler
                 persmin: $course->getPersmin(),
                 isconfirmed: $course->isConfirmed(),
                 start: $course->getStart(),
-                end: $course->getEnd()
+                end: $course->getEnd(),
+                cancelled: $course->getCancelled()
             ),
                 $courses
             ),
