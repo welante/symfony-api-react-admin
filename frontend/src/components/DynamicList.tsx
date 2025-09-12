@@ -10,6 +10,7 @@ import {
     BooleanInput,
     DateInput,
     NumberInput,
+    useResourceContext,
 } from 'react-admin';
 
 type Column = {
@@ -62,14 +63,15 @@ function renderFilter(filter: Column) {
 }
 
 const DynamicList = () => {
+    const resource = useResourceContext();
     const [schema, setSchema] = useState<Schema | null>(null);
 
     useEffect(() => {
-        fetch(`${apiUrl}/metadata/courses/list`)
+        if (!resource) return;
+        fetch(`${apiUrl}/metadata/${resource}/list`)
             .then((res) => res.json())
             .then((data) => setSchema(data as Schema));
-    }, []);
-
+    }, [resource]);
 
     if (!schema) return null;
 
