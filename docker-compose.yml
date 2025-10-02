@@ -14,7 +14,9 @@ services:
 
     welante-admin-db:
         container_name: welante-admin-db
-        image: mariadb:10.6
+        build:
+          dockerfile: ./docker/db/Dockerfile
+          context: .
         environment:
             MYSQL_DATABASE: app
             MYSQL_USER: symfony
