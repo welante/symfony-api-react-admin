@@ -4,6 +4,7 @@ services:
         build: ./docker/backend
         volumes:
             - ./backend:/var/www/backend
+            - welante-admin-back_vendor:/var/www/backend/vendor
         working_dir: /var/www/backend
         ports:
             - "8181:80"
@@ -43,6 +44,7 @@ services:
 
 volumes:
     welante-admin-db_data:
+    welante-admin-back_vendor:
 
 networks:
     welante-admin-network:

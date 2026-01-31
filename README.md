@@ -99,5 +99,3 @@ docker-compose exec welante-admin-back php bin/console <command>
 ```bash
 docker-compose exec welante-admin-back composer require <package>
 ```
-
----
