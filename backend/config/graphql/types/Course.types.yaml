@@ -1,0 +1,44 @@
+Course:
+    type: object
+    config:
+        description: "A course entity"
+        fields:
+            id:
+                type: "Int!"
+            code:
+                type: "String!"
+            active:
+                type: "Boolean"
+            persmax:
+                type: "Int"
+            persmin:
+                type: "Int"
+            isconfirmed:
+                type: "Boolean"
+            start:
+                type: "String"
+                resolve: "@=value.getStart() ? value.getStart().format('Y-m-d H:i:s') : null"
+            end:
+                type: "String"
+                resolve: "@=value.getEnd() ? value.getEnd().format('Y-m-d H:i:s') : null"
+            cancelled:
+                type: "String"
+                resolve: "@=value.getCancelled() ? value.getCancelled().format('Y-m-d H:i:s') : null"
+            createdAt:
+                type: "String"
+                resolve: "@=value.getCreatedAt() ? value.getCreatedAt().format('Y-m-d H:i:s') : null"
+            updatedAt:
+                type: "String"
+                resolve: "@=value.getUpdatedAt() ? value.getUpdatedAt().format('Y-m-d H:i:s') : null"
+
+CourseConnection:
+    type: object
+    config:
+        description: "Paginated course results"
+        fields:
+            items:
+                type: "[Course!]!"
+            totalCount:
+                type: "Int!"
+            hasNextPage:
+                type: "Boolean!"

@@ -1,9 +1,29 @@
 Query:
     type: object
     config:
-        description: "Root Query type (stub - populated by Plan 02)"
         fields:
-            placeholder:
-                type: "String"
-                description: "Placeholder field - replaced in Plan 02"
-                resolve: "@='placeholder'"
+            course:
+                type: "Course"
+                args:
+                    id:
+                        type: "Int!"
+                resolve: "@=resolver('CourseResolver', [args])"
+            courses:
+                type: "CourseConnection!"
+                args:
+                    limit:
+                        type: "Int"
+                        defaultValue: 10
+                    offset:
+                        type: "Int"
+                        defaultValue: 0
+                    sort:
+                        type: "String"
+                        defaultValue: "id"
+                    order:
+                        type: "String"
+                        defaultValue: "ASC"
+                    filters:
+                        type: "String"
+                        description: "JSON-encoded filter map (field: value)"
+                resolve: "@=resolver('CoursesResolver', [args])"

@@ -1,0 +1,24 @@
+CourseInput:
+    type: input-object
+    config:
+        description: "Input for creating or updating a course"
+        fields:
+            code:
+                type: "String!"
+            active:
+                type: "Boolean"
+            persmax:
+                type: "Int"
+            persmin:
+                type: "Int"
+            isconfirmed:
+                type: "Boolean"
+            start:
+                type: "String"
+                description: "ISO datetime string (Y-m-d H:i:s)"
+            end:
+                type: "String"
+                description: "ISO datetime string (Y-m-d H:i:s)"
+            cancelled:
+                type: "String"
+                description: "ISO datetime string or null"

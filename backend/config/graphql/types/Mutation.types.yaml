@@ -1,9 +1,24 @@
 Mutation:
     type: object
     config:
-        description: "Root Mutation type (stub - populated by Plan 02)"
         fields:
-            placeholder:
-                type: "String"
-                description: "Placeholder field - replaced in Plan 02"
-                resolve: "@='placeholder'"
+            createCourse:
+                type: "Course!"
+                args:
+                    input:
+                        type: "CourseInput!"
+                resolve: "@=mutation('createCourse', [args])"
+            updateCourse:
+                type: "Course!"
+                args:
+                    id:
+                        type: "Int!"
+                    input:
+                        type: "CourseInput!"
+                resolve: "@=mutation('updateCourse', [args])"
+            deleteCourse:
+                type: "Boolean!"
+                args:
+                    id:
+                        type: "Int!"
+                resolve: "@=mutation('deleteCourse', [args])"
