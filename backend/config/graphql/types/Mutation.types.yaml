@@ -1,0 +1,9 @@
+Mutation:
+    type: object
+    config:
+        description: "Root Mutation type (stub - populated by Plan 02)"
+        fields:
+            placeholder:
+                type: "String"
+                description: "Placeholder field - replaced in Plan 02"
+                resolve: "@='placeholder'"
