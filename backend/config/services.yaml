@@ -22,3 +22,8 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Infrastructure\GraphQL\CourseResolver:
+        tags:
+            - { name: overblog_graphql.resolver, alias: CourseResolver, method: resolveCourse }
+            - { name: overblog_graphql.resolver, alias: CoursesResolver, method: resolveCourses }

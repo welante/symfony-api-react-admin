@@ -17,19 +17,19 @@ Course:
                 type: "Boolean"
             start:
                 type: "String"
-                resolve: "@=value.getStart() ? value.getStart().format('Y-m-d H:i:s') : null"
+                resolve: "@=value.start != null ? value.start.format('Y-m-d H:i:s') : null"
             end:
                 type: "String"
-                resolve: "@=value.getEnd() ? value.getEnd().format('Y-m-d H:i:s') : null"
+                resolve: "@=value.end != null ? value.end.format('Y-m-d H:i:s') : null"
             cancelled:
                 type: "String"
-                resolve: "@=value.getCancelled() ? value.getCancelled().format('Y-m-d H:i:s') : null"
+                resolve: "@=value.cancelled != null ? value.cancelled.format('Y-m-d H:i:s') : null"
             createdAt:
                 type: "String"
-                resolve: "@=value.getCreatedAt() ? value.getCreatedAt().format('Y-m-d H:i:s') : null"
+                resolve: "@=value.createdAt != null ? value.createdAt.format('Y-m-d H:i:s') : null"
             updatedAt:
                 type: "String"
-                resolve: "@=value.getUpdatedAt() ? value.getUpdatedAt().format('Y-m-d H:i:s') : null"
+                resolve: "@=value.updatedAt != null ? value.updatedAt.format('Y-m-d H:i:s') : null"
 
 CourseConnection:
     type: object
