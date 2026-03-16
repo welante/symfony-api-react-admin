@@ -27,3 +27,9 @@ services:
         tags:
             - { name: overblog_graphql.resolver, alias: CourseResolver, method: resolveCourse }
             - { name: overblog_graphql.resolver, alias: CoursesResolver, method: resolveCourses }
+
+    App\Infrastructure\GraphQL\CourseMutator:
+        tags:
+            - { name: overblog_graphql.mutation, alias: createCourse, method: createCourse }
+            - { name: overblog_graphql.mutation, alias: updateCourse, method: updateCourse }
+            - { name: overblog_graphql.mutation, alias: deleteCourse, method: deleteCourse }
