@@ -24,9 +24,11 @@ class CourseMutator implements MutationInterface, AliasedInterface
         private GetCourseFormDataHandler $getHandler
     ) {}
 
-    public function createCourse(Argument $args): object
+    public function createCourse(array $args): object
     {
-        $input = $args['input'];
+        // AbstractProxyResolver passes args as [0 => ArgumentObject]
+        $realArgs = $args[0];
+        $input = $realArgs['input'];
         $data = $input instanceof Argument ? $input->getArrayCopy() : (array) $input;
 
         try {
@@ -38,7 +40,7 @@ class CourseMutator implements MutationInterface, AliasedInterface
             }
             throw new GraphQLError(
                 'Validation failed',
-                null, null, null, null, null,
+                null, null, [], null, null,
                 ['category' => 'validation', 'errors' => $fieldErrors]
             );
         }
@@ -46,10 +48,11 @@ class CourseMutator implements MutationInterface, AliasedInterface
         return $this->entityToStdClass($course);
     }
 
-    public function updateCourse(Argument $args): object
+    public function updateCourse(array $args): object
     {
-        $id = (int) $args['id'];
-        $input = $args['input'];
+        $realArgs = $args[0];
+        $id = (int) $realArgs['id'];
+        $input = $realArgs['input'];
         $data = $input instanceof Argument ? $input->getArrayCopy() : (array) $input;
 
         try {
@@ -61,13 +64,13 @@ class CourseMutator implements MutationInterface, AliasedInterface
             }
             throw new GraphQLError(
                 'Validation failed',
-                null, null, null, null, null,
+                null, null, [], null, null,
                 ['category' => 'validation', 'errors' => $fieldErrors]
             );
         } catch (\RuntimeException $e) {
             throw new GraphQLError(
                 'Course not found',
-                null, null, null, null, null,
+                null, null, [], null, null,
                 ['category' => 'not_found']
             );
         }
@@ -75,14 +78,15 @@ class CourseMutator implements MutationInterface, AliasedInterface
         return $this->entityToStdClass($course);
     }
 
-    public function deleteCourse(Argument $args): bool
+    public function deleteCourse(array $args): bool
     {
-        $id = (int) $args['id'];
+        $realArgs = $args[0];
+        $id = (int) $realArgs['id'];
         $existing = $this->getHandler->handle($id);
         if ($existing === null) {
             throw new GraphQLError(
                 'Course not found',
-                null, null, null, null, null,
+                null, null, [], null, null,
                 ['category' => 'not_found']
             );
         }
