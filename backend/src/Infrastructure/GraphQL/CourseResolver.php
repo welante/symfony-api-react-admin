@@ -6,6 +6,7 @@ namespace App\Infrastructure\GraphQL;
 
 use App\Application\Course\Handler\GetCourseFormDataHandler;
 use App\Application\Course\Handler\GetCourseListHandler;
+use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\ResolverInterface;
 
@@ -16,7 +17,7 @@ class CourseResolver implements ResolverInterface, AliasedInterface
         private GetCourseListHandler $coursesHandler
     ) {}
 
-    public function resolveCourse(array $args): ?\stdClass
+    public function resolveCourse(Argument $args): ?\stdClass
     {
         $id = (int) $args['id'];
         $dto = $this->courseHandler->handle($id);
@@ -41,7 +42,7 @@ class CourseResolver implements ResolverInterface, AliasedInterface
         return $result;
     }
 
-    public function resolveCourses(array $args): array
+    public function resolveCourses(Argument $args): array
     {
         $limit = (int) ($args['limit'] ?? 10);
         $offset = (int) ($args['offset'] ?? 0);
